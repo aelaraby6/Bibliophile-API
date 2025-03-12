@@ -1,7 +1,7 @@
-# Book API
+# Bibliophile API
 
 ## Overview
-Book API is a simple RESTful API built with Node.js, Express, and MongoDB for managing a collection of books. It allows users to create, read, update, and delete books.
+Bibliophile API is a simple RESTful API built with Node.js, Express, and MongoDB for managing a collection of books. It allows users to create, read, update, and delete books.
 
 ## Features
 - **Get All Books**: Retrieve a list of all books.
