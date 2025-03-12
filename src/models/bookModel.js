@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
 
-
-const bookSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
+const bookSchema = new mongoose.Schema(
+    {
+        title: {
+            type: String,
+            required: [true, "Title is required"],
+            trim: true,
+        },
+        author: {
+            type: String,
+            required: [true, "Author is required"],
+            trim: true,
+        },
+        yearPublished: {
+            type: Number,
+            required: [true, "Year Published is required"],
+            min: [1000, "Year must be a valid number"],
+        },
     },
-    author: {
-        type: String,
-        required: true
-    },
-    yearPublished: {
-        type: Number,
-        required: true
-    }
-}, { timestamps: true });
+    { timestamps: true }
+);
 
 const Book = mongoose.model("Book", bookSchema);
 

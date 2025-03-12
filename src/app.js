@@ -1,40 +1,32 @@
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import BookRoutes from "./routes/bookRoutes.js"
-import { requestLogger, validateBook } from "./middlewares/customMiddleware.js";
 import dotenv from "dotenv";
+import BookRoutes from "./routes/bookRoutes.js";
+import { requestLogger } from "./middlewares/customMiddleware.js";
 
 dotenv.config();
 
-
 const MONGO_URI = process.env.MONGO_URI;
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
+const app = express();
 
-
-const app = express()
-
-
-// middelewares
-app.use(express.json())
+// Middlewares
+app.use(express.json());
 app.use(morgan("dev"));
 app.use(requestLogger);
 
-
-// connect DB
-
-mongoose.connect(
-  MONGO_URI
-)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Connection error:", err));
+// Connect to Database
+mongoose
+    .connect(MONGO_URI)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.error("Connection error:", err));
 
 // Routes
-app.use(BookRoutes)
+app.use(BookRoutes);
 
-// Server
+// Start Server
 app.listen(PORT, () => {
-  console.log("server is start on port 3000");
-})
-
+    console.log(`Server is running on port ${PORT}`);
+});
