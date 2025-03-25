@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import BookRoutes from "./routes/bookRoutes.js";
+import UserRoutes from "./routes/userRoutes.js";
 import { requestLogger } from "./middlewares/customMiddleware.js";
 
 dotenv.config();
@@ -12,10 +13,11 @@ const PORT = process.env.PORT;
 
 const app = express();
 
-// Middlewares
-app.use(express.json());
-app.use(morgan("dev"));
-app.use(requestLogger);
+// Start Server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
 
 // Connect to Database
 mongoose
@@ -23,10 +25,15 @@ mongoose
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("Connection error:", err));
 
-// Routes
-app.use(BookRoutes);
+// Middlewares
+app.use(express.json());
+app.use(morgan("dev"));
+app.use(requestLogger);
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+
+// Routes
+
+app.use("/users", UserRoutes);
+app.use("/books", BookRoutes);
+
+
