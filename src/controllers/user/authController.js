@@ -1,6 +1,7 @@
 import { compare } from "bcrypt";
 import User from "../../models/userModel.js"
 import { comparePassword, hashPassword } from "../../Services/passwordService.js"
+import { generateToken } from "../../Services/jwtService.js";
 
 
 
@@ -20,10 +21,13 @@ export const SignUpController = async (req, res) => {
 
         const newUser = new User({ ...data, password: hashedPassword });
 
+        const token = generateToken(newUser.name, newUser.email, newUser.phone, newUser._id);
+
         await newUser.save();
 
         res.status(201).json({
             data: newUser,
+            token: token,
             message: "User created successfully",
         });
 
@@ -55,8 +59,11 @@ export const SignInController = async (req, res) => {
             return res.status(400).json({ error: "Email or Password are not matched" });
         }
 
+        const token = generateToken(user.name, user.email, user.phone, user._id);
+
         res.status(201).json({
             message: "Login successful",
+            token: token,
             user: {
                 name: user.name,
                 email: user.email
