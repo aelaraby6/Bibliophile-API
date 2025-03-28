@@ -5,11 +5,20 @@ Bibliophile API is a RESTful web service designed for managing book collections 
 
 ## Features
 - **Comprehensive Book Management**: Supports full CRUD operations (Create, Read, Update, Delete) for book records.
+
+![Add-Book](https://github.com/user-attachments/assets/2554e604-b75b-4258-b330-2664ced1a2ec)
+
 - **User Authentication**: Secure authentication using JWT-based token management.
+
+![SignUp](https://github.com/user-attachments/assets/494d9a56-75d0-4ced-bd08-42d50f5cf4b2)
+
 - **Data Validation**: Ensures data integrity through proper validation techniques.
 - **Structured API Responses**: Provides consistent JSON responses with appropriate HTTP status codes.
 - **Logging and Error Handling**: Implements structured logging and robust error-handling mechanisms.
 - **MongoDB Integration**: Uses Mongoose ODM for flexible and scalable document storage.
+
+  ![Get-Profile](https://github.com/user-attachments/assets/4822900d-d83b-44cc-89f5-69044c08ebd0)
+
 
 ## Technical Architecture
 The API is built using a modular and scalable architecture, ensuring clean separation of concerns:
