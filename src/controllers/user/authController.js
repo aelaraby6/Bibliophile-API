@@ -1,11 +1,11 @@
+import { compare } from "bcrypt";
 import User from "../../models/userModel.js"
-import { hashPassword } from "../../Services/passwordService.js"
+import { comparePassword, hashPassword } from "../../Services/passwordService.js"
 
 
 
 // SignUp
 export const SignUpController = async (req, res) => {
-
     try {
         const data = req.body;
         const email = data.email;
@@ -13,12 +13,12 @@ export const SignUpController = async (req, res) => {
         const oldUser = await User.findOne({ email: email });
 
         if (oldUser) {
-            throw new Error("User Already Exist").status(400);
+            return res.status(400).json({ error: "User Already Exist" });
         }
 
         const hashedPassword = await hashPassword(data.password);
 
-        const newUser = await new User({ ...data, password: hashedPassword });
+        const newUser = new User({ ...data, password: hashedPassword });
 
         await newUser.save();
 
@@ -27,7 +27,6 @@ export const SignUpController = async (req, res) => {
             message: "User created successfully",
         });
 
-
     }
     catch (err) {
         res.status(400).json({ error: err.message });
@@ -35,4 +34,38 @@ export const SignUpController = async (req, res) => {
 
 }
 
+// SignIn
+export const SignInController = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
+        if (!email || !password) {
+            return res.status(400).json({ error: "Email and Password are required" });
+        }
+
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return res.status(400).json({ error: "Email or Password are not matched" });
+        }
+
+        const comparedPassword = await comparePassword(password, user.password);
+
+        if (!comparedPassword) {
+            return res.status(400).json({ error: "Email or Password are not matched" });
+        }
+
+        res.status(201).json({
+            message: "Login successful",
+            user: {
+                name: user.name,
+                email: user.email
+            }
+        });
+
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+
+}

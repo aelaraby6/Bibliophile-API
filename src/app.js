@@ -33,7 +33,7 @@ app.use(requestLogger);
 
 // Routes
 
-app.use("/users", UserRoutes);
+app.use(UserRoutes);
 app.use("/books", BookRoutes);
 
 
